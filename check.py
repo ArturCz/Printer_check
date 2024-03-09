@@ -4,7 +4,7 @@ from tkinter import messagebox
 import time
 
 
-def sprawdz_drukarke(prefix):
+def check_printer(prefix):
     conn = cups.Connection()
     printers = conn.getPrinters()
 
@@ -20,9 +20,9 @@ def sprawdz_drukarke(prefix):
     return False, False, False, False
 
 
-def informuj_o_stanie_drukarki():
+def printer_status():
     prefix = "HP"
-    podlaczona, offline, toner, tusz = sprawdz_drukarke(prefix)
+    podlaczona, offline, toner, tusz = check_printer(prefix)
 
     if not podlaczona:
         messagebox.showerror("Błąd", "Uwaga! Drukarka nie jest podłączona.")
@@ -35,14 +35,14 @@ def informuj_o_stanie_drukarki():
             messagebox.showerror("Błąd", "Uwaga! Brakuje tuszu w drukarce.")
 
 
-def sprawdz_co_minute():
+def check_eve_minute():
     while True:
-        informuj_o_stanie_drukarki()
+        printer_status()
         time.sleep(15)
 
 
 
 root = tk.Tk()
 root.withdraw()
-sprawdz_co_minute()
+check_eve_minute()
 root.mainloop()
